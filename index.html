@@ -1,749 +1,790 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Graduate School Opportunities</title>
+
+    <!-- Inter font for professional typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- TailwindCSS + Alpine -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji'] },
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        }
+                    },
+                    boxShadow: {
+                        card: '0 8px 24px rgba(15, 23, 42, 0.06)',
+                        hover: '0 12px 28px rgba(15, 23, 42, 0.10)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .lift {
+            transform: translateY(0);
+            transition: transform 220ms cubic-bezier(.2, .7, .2, 1), box-shadow 220ms;
+        }
+
+        .lift:hover {
+            transform: translateY(-2px);
+        }
+
+        .ring-focus:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, .35);
+        }
+    </style>
 </head>
 
-<body class="bg-slate-50 font-sans text-slate-800">
-    <header class="bg-white shadow-sm sticky top-0 z-20">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-            <h1 class="text-xl font-bold text-emerald-700">
-                <i class="fas fa-graduation-cap mr-2"></i>Graduate School
-                Opportunities
-            </h1>
+<body class="bg-slate-50 text-slate-800 antialiased">
+    <!-- Top bar -->
+    <header
+        class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/70 bg-white/90 border-b border-slate-200">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span
+                    class="inline-grid place-items-center h-10 w-10 rounded-xl bg-gradient-to-br from-brand-500 to-emerald-600 text-white shadow-card">
+                    <i class="fas fa-graduation-cap text-lg"></i>
+                </span>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-extrabold leading-5 text-slate-900">
+                        Graduate School Opportunities
+                    </h1>
+                    <p class="text-xs text-slate-500 hidden sm:block">Curated, Bachelor-eligible openings — refreshed
+                        often</p>
+                </div>
+            </div>
+
             <a href="mailto:boycer@nku.edu"
-                class="inline-flex items-center gap-2 rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">
-                <i class="fas fa-envelope"></i>Email New Listing
+                class="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-3.5 py-2 text-sm font-semibold text-white shadow-card hover:shadow-hover hover:bg-brand-700 active:bg-brand-800 ring-focus">
+                <i class="fas fa-envelope"></i>
+                Email New Listing
             </a>
         </nav>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" x-data="filters()">
-        <section class="text-center mb-12">
-            <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-                Find Your Next Graduate Program
-            </h2>
-            <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">
-                Listings stay for 30 days or until their deadline. All openings are
-                open to Bachelor-level candidates.
-            </p>
+    <!-- Hero -->
+    <section class="relative">
+        <div class="absolute inset-0 -z-10 bg-gradient-to-b from-emerald-50 via-white to-white"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+            <div class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+                    Find Your Next Graduate Program
+                </h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">
+                    Listings stay for 30 days or until their deadline. All openings are open to Bachelor-level
+                    candidates.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main -->
+    <main x-data="filters()" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+
+        <!-- Filter panel -->
+        <section class="max-w-5xl mx-auto -mt-4 sm:-mt-8">
+            <div class="rounded-2xl bg-white shadow-card border border-slate-200 p-4 sm:p-6">
+                <div class="flex items-center justify-between gap-3 mb-3">
+                    <p class="text-xs font-semibold uppercase tracking-widest text-brand-700">Quick Find</p>
+                    <div class="text-xs text-slate-500">
+                        <span x-text="visibleCount()"></span>
+                        <span> result<span x-show="visibleCount() !== 1">s</span></span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-stretch md:items-center gap-3 sm:gap-4">
+                    <!-- Search -->
+                    <label class="relative w-full md:flex-1">
+                        <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input x-model="search" type="text" placeholder="Keywords (e.g., GIS, wetland, stipend)…"
+                            class="w-full pl-10 pr-3 py-3 rounded-xl border border-slate-200 bg-white shadow-inner focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-brand-400 transition-all ring-focus"
+                            @input.debounce.120ms="apply()" aria-label="Search listings by keyword" />
+                    </label>
+
+                    <!-- Degree -->
+                    <div class="relative w-full md:w-52">
+                        <select x-model="degree"
+                            class="w-full appearance-none pl-4 pr-10 py-3 rounded-xl border border-slate-200 bg-white shadow-inner focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-brand-400 transition-all ring-focus"
+                            aria-label="Filter by degree">
+                            <option value="all">All degrees</option>
+                            <option value="ms">M.S. / M.Sc.</option>
+                            <option value="phd">Ph.D.</option>
+                        </select>
+                        <i
+                            class="fas fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
+                    </div>
+
+                    <!-- Country -->
+                    <div class="relative w-full md:w-56">
+                        <select x-model="country"
+                            class="w-full appearance-none pl-4 pr-10 py-3 rounded-xl border border-slate-200 bg-white shadow-inner focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-brand-400 transition-all ring-focus"
+                            aria-label="Filter by country">
+                            <option value="all">All countries</option>
+                            <option value="United States">United States</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Brazil">Brazil</option>
+                        </select>
+                        <i
+                            class="fas fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
+                    </div>
+
+                    <!-- Clear -->
+                    <button type="button" @click="clearFilters()"
+                        class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 active:bg-slate-100 shadow-inner ring-focus"
+                        :class="{'opacity-50 cursor-not-allowed': isPristine()}" :disabled="isPristine()"
+                        title="Reset search and filters">
+                        <i class="fas fa-rotate-left"></i>
+                        Clear
+                    </button>
+                </div>
+
+                <p class="text-xs text-slate-500 mt-2 px-1">Results update as you type.</p>
+            </div>
         </section>
 
-        <section class="max-w-4xl mx-auto mb-10">
-            <!-- decorative label -->
-            <p class="text-xs font-semibold uppercase tracking-widest text-emerald-600 mb-2">Quick Find</p>
+        <!-- Cards list -->
+        <section class="mt-10" x-ref="list" @keyup.window.debounce.200ms="apply()" x-init="$nextTick(()=> apply())">
+            <!-- Use a responsive grid for better scanability -->
+            <div class="grid gap-6 md:gap-7 lg:gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                <!-- UW-Madison EC -->
+                <article data-degree="ms" data-country="United States" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover focus-within:shadow-hover transition-shadow">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">M.S.</span>
+                            <span class="text-xs text-slate-500">Posted 8/14/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            Environmental Conservation Professional MS @ UW-Madison
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            15-month, 32-credit professional program focused on conservation leadership, culminating in
+                            a real-world applied project.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-emerald-600"></i> Priority deadline: Dec 1, 2025
+                            </li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-emerald-600"></i> Madison, WI</li>
+                            <li><i class="fas fa-dollar-sign w-4 text-emerald-600"></i> $32k tuition; need-based
+                                assistance available</li>
+                        </ul>
+                        <div class="mt-5 flex flex-wrap gap-2">
+                            <a href="https://nelson.wisc.edu/graduate/professional-programs/environmental-conservation/"
+                                target="_blank"
+                                class="rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-brand-700 hover:shadow-hover ring-focus">Program
+                                Page</a>
+                            <a href="https://nelson.wisc.edu/graduate/professional-programs/costs-and-funding/"
+                                target="_blank"
+                                class="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-brand-700 ring-1 ring-inset ring-brand-600 hover:bg-brand-50 ring-focus">Funding</a>
+                        </div>
+                    </div>
+                </article>
 
-            <div class="flex flex-col md:flex-row items-center gap-4">
-                <!-- Search -->
-                <div class="relative w-full md:flex-1">
-                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input x-model="search" type="text" placeholder="Keywords (e.g., GIS, wetland, stipend)…" class="w-full pl-11 pr-4 py-3 rounded-2xl border border-slate-200 bg-white shadow-sm
-                    focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400
-                    transition-all duration-200 ease-in-out" />
-                </div>
+                <!-- UW-Madison EOI -->
+                <article data-degree="ms" data-country="United States" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">M.S.</span>
+                            <span class="text-xs text-slate-500">Posted 8/14/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            Environmental Observation &amp; Informatics MS @ UW-Madison
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            15-month, 32-credit program at the intersection of geospatial technology and environmental
+                            conservation.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-emerald-600"></i> Priority deadline: Dec 1, 2025
+                            </li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-emerald-600"></i> Madison, WI</li>
+                            <li><i class="fas fa-dollar-sign w-4 text-emerald-600"></i> $32k tuition; need-based
+                                assistance available</li>
+                        </ul>
+                        <div class="mt-5 flex flex-wrap gap-2">
+                            <a href="https://nelson.wisc.edu/graduate/professional-programs/environmental-observation-and-informatics/"
+                                target="_blank"
+                                class="rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-brand-700 hover:shadow-hover ring-focus">Program
+                                Page</a>
+                            <a href="https://nelson.wisc.edu/graduate/professional-programs/costs-and-funding/"
+                                target="_blank"
+                                class="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-brand-700 ring-1 ring-inset ring-brand-600 hover:bg-brand-50 ring-focus">Funding</a>
+                        </div>
+                    </div>
+                </article>
 
-                <!-- Degree Select -->
-                <div class="relative w-full md:w-auto">
-                    <select x-model="degree" class="appearance-none w-full md:w-48 pl-4 pr-10 py-3 rounded-2xl border border-slate-200 bg-white shadow-sm
-                     focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400
-                     transition-all duration-200 ease-in-out">
-                        <option value="all">All degrees</option>
-                        <option value="ms">M.S. / M.Sc.</option>
-                        <option value="phd">Ph.D.</option>
-                    </select>
-                    <i
-                        class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
-                </div>
+                <!-- WSU Grassland -->
+                <article data-degree="ms" data-country="United States" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-800">M.S.</span>
+                            <span class="text-xs text-slate-500">Posted 8/14/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            Graduate Assistantship (M.S.), Grassland Plant Ecology @ Wichita State
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            Study cattle-grazing effects on Conservation Reserve Program grasslands in KS &amp; CO.
+                            Extensive summer fieldwork.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-sky-600"></i> Start: Jan 2026 | Review starts
+                                Sept 15</li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-sky-600"></i> Wichita, KS (urban campus near
+                                Flint Hills)</li>
+                            <li><i class="fas fa-dollar-sign w-4 text-sky-600"></i> $25k/yr stipend + tuition waiver +
+                                health benefits</li>
+                            <li><i class="fas fa-user w-4 text-sky-600"></i> Contact: Dr. Greg Houseman
+                                (greg.houseman@wichita.edu)</li>
+                        </ul>
+                        <a href="http://www.wichita.edu/biology/" target="_blank"
+                            class="mt-5 inline-block rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-sky-700 hover:shadow-hover ring-focus">Dept.
+                            Website</a>
+                    </div>
+                </article>
 
-                <!-- Country Select (added) -->
-                <div class="relative w-full md:w-auto">
-                    <select x-model="country" class="appearance-none w-full md:w-48 pl-4 pr-10 py-3 rounded-2xl border border-slate-200 bg-white shadow-sm
-                     focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400
-                     transition-all duration-200 ease-in-out">
-                        <option value="all">All countries</option>
-                        <option value="United States">United States</option>
-                        <option value="Canada">Canada</option>
-                        <option value="Brazil">Brazil</option>
-                    </select>
-                    <i
-                        class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
-                </div>
+                <!-- UBC PhD Landscape -->
+                <article data-degree="phd" data-country="Canada" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-800">Ph.D.</span>
+                            <span class="text-xs text-slate-500">Posted 8/13/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            PhD – Landscape Connectivity for Ecosystem Services @ UBC Forestry
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            Collaborative project with Nature Conservancy of Canada &amp; Metro Vancouver on
+                            social-ecological landscape connectivity under future land-use &amp; climate change.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-indigo-600"></i> Start: Jan or May 2026</li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-indigo-600"></i> Vancouver, BC</li>
+                            <li><i class="fas fa-user w-4 text-indigo-600"></i> Contact: Dr. Matthew Mitchell
+                                (matthew.mitchell@ubc.ca)</li>
+                        </ul>
+                        <a href="https://mgemitchell.weebly.com/opportunities.html" target="_blank"
+                            class="mt-5 inline-block rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-indigo-700 hover:shadow-hover ring-focus">Full
+                            Details</a>
+                    </div>
+                </article>
+
+                <!-- UBC MSc Urban -->
+                <article data-degree="ms" data-country="Canada" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-800">M.Sc.</span>
+                            <span class="text-xs text-slate-500">Posted 8/13/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            MSc – Urban Forest Ecology @ UBC Forestry
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            Investigate how urban forests on public &amp; private land contribute to connectivity,
+                            biodiversity &amp; climate-related ecosystem services across Canadian cities.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-indigo-600"></i> Start: Jan or May 2026</li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-indigo-600"></i> Vancouver, BC</li>
+                            <li><i class="fas fa-user w-4 text-indigo-600"></i> Co-supervised by Dr. Matthew Mitchell
+                                &amp; Dr. Tahia Devisscher</li>
+                        </ul>
+                        <a href="https://mgemitchell.weebly.com/opportunities.html" target="_blank"
+                            class="mt-5 inline-block rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-indigo-700 hover:shadow-hover ring-focus">Full
+                            Details</a>
+                    </div>
+                </article>
+
+                <!-- UNH Quantitative -->
+                <article data-degree="ms,phd" data-country="United States" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-800">M.S.
+                                / Ph.D.</span>
+                            <span class="text-xs text-slate-500">Posted 8/11/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            Graduate Student – Quantitative Ecology @ University of New Hampshire
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            Use large secondary datasets (eBird, BioTime) to optimize long-term monitoring program
+                            design. Strong data-science/modelling background desired.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-teal-600"></i> Start: 2026</li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-teal-600"></i> Durham, NH</li>
+                            <li><i class="fas fa-user w-4 text-teal-600"></i> Contact via lab manual link</li>
+                        </ul>
+                        <a href="https://quantmarineecolab.github.io/lab-manual/04-recruitment.html" target="_blank"
+                            class="mt-5 inline-block rounded-lg bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-teal-700 hover:shadow-hover ring-focus">Lab
+                            Manual &amp; Apply</a>
+                    </div>
+                </article>
+
+                <!-- Boise State PhD Fire -->
+                <article data-degree="phd" data-country="United States" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">Ph.D.</span>
+                            <span class="text-xs text-slate-500">Posted 8/11/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            PhD – Social-Ecological Dynamics of Wildland Fire @ Boise State
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            NSF-funded project examining wildfire impacts &amp; management decisions across scales.
+                            Focus on integrating social vulnerability into resource allocation.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-amber-600"></i> Apply by: Sept 1, 2025 for
+                                Spring/Fall 2026</li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-amber-600"></i> Boise, ID</li>
+                            <li><i class="fas fa-user w-4 text-amber-600"></i> PI: Dr. Megan Cattau
+                                (megan.cattau@boisestate.edu)</li>
+                        </ul>
+                        <a href="https://www.boisestate.edu/hes/" target="_blank"
+                            class="mt-5 inline-block rounded-lg bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-amber-700 hover:shadow-hover ring-focus">Program
+                            Info</a>
+                    </div>
+                </article>
+
+                <!-- Purdue MS Forest -->
+                <article data-degree="ms" data-country="United States" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold text-rose-800">M.S.</span>
+                            <span class="text-xs text-slate-500">Posted 8/11/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            M.S. – Spatial Forest Ecology @ Purdue University
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            Model how spatial relationships among trees influence forest growth, regeneration &amp;
+                            understory communities in Indiana mixed hardwood forests.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-rose-600"></i> Start: Spring 2026</li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-rose-600"></i> West Lafayette, IN</li>
+                            <li><i class="fas fa-dollar-sign w-4 text-rose-600"></i> Competitive stipend, tuition
+                                waiver, health insurance</li>
+                            <li><i class="fas fa-user w-4 text-rose-600"></i> Contact: Dr. Insu Jo (insujo@purdue.edu)
+                            </li>
+                        </ul>
+                        <a href="https://ag.purdue.edu/directory/insujo" target="_blank"
+                            class="mt-5 inline-block rounded-lg bg-rose-600 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-rose-700 hover:shadow-hover ring-focus">Lab
+                            Page</a>
+                    </div>
+                </article>
+
+                <!-- UCSB PhD Forest -->
+                <article data-degree="phd" data-country="United States" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-800">Ph.D.</span>
+                            <span class="text-xs text-slate-500">Posted 8/11/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            PhD – Forest Ecology @ UCSB Landscapes of Change Lab
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            Study how climate change &amp; disturbances reshape forests; combine field ecology with data
+                            science &amp; quantitative analysis.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-purple-600"></i> Apply by: Dec 15 (start
+                                Summer/Fall 2026)</li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-purple-600"></i> Santa Barbara, CA</li>
+                            <li><i class="fas fa-user w-4 text-purple-600"></i> Contact: Dr. Joan Dudney
+                                (dudney@ucsb.edu)</li>
+                        </ul>
+                        <a href="https://www.landscapesofchangelab.com/join-us" target="_blank"
+                            class="mt-5 inline-block rounded-lg bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-purple-700 hover:shadow-hover ring-focus">Join
+                            Us Page</a>
+                    </div>
+                </article>
+
+                <!-- UL Lafayette Coastal -->
+                <article data-degree="phd" data-country="United States" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-cyan-100 px-3 py-1 text-xs font-semibold text-cyan-800">Ph.D.</span>
+                            <span class="text-xs text-slate-500">Posted 8/8/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            PhD – Coastal Plant Ecology @ University of Louisiana Lafayette
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            Research coastal plant eco-evolutionary dynamics in salt marshes using field, greenhouse
+                            &amp; molecular approaches.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-cyan-600"></i> Review begins Aug 20, 2025
+                                (Spring/Fall 2026)</li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-cyan-600"></i> Lafayette, LA</li>
+                            <li><i class="fas fa-dollar-sign w-4 text-cyan-600"></i> $22k/yr + tuition waiver (possible
+                                top-up)</li>
+                            <li><i class="fas fa-user w-4 text-cyan-600"></i> Contact: Dr. Robyn Zerebecki
+                                (robyn.zerebecki@louisiana.edu)</li>
+                        </ul>
+                        <a href="https://zerebeckir.wixsite.com/home" target="_blank"
+                            class="mt-5 inline-block rounded-lg bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-cyan-700 hover:shadow-hover ring-focus">Lab
+                            Website</a>
+                    </div>
+                </article>
+
+                <!-- UVA Insect -->
+                <article data-degree="phd" data-country="United States" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-lime-100 px-3 py-1 text-xs font-semibold text-lime-800">Ph.D.</span>
+                            <span class="text-xs text-slate-500">Posted 8/8/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            PhD – Insect Population / Global Change Ecology @ University of Virginia
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            Research population cycles, spatial synchrony, invasive spread &amp; effects of light
+                            pollution on insects using long-term data &amp; field experiments.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-lime-600"></i> Start: Fall 2026</li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-lime-600"></i> Charlottesville, VA (Blandy
+                                Experimental Farm)</li>
+                            <li><i class="fas fa-dollar-sign w-4 text-lime-600"></i> 5-yr support: stipend, tuition,
+                                health insurance, summer housing</li>
+                            <li><i class="fas fa-user w-4 text-lime-600"></i> Contact: Dr. Kyle Haynes
+                                (haynes@virginia.edu)</li>
+                        </ul>
+                        <a href="https://uva.theopenscholar.com/haynes-lab" target="_blank"
+                            class="mt-5 inline-block rounded-lg bg-lime-600 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-lime-700 hover:shadow-hover ring-focus">Haynes
+                            Lab</a>
+                    </div>
+                </article>
+
+                <!-- Pitt Data Science -->
+                <article data-degree="phd" data-country="United States" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-800">Ph.D.</span>
+                            <span class="text-xs text-slate-500">Posted 8/7/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            PhD – Environmental Data Science &amp; Global Change Biology @ University of Pittsburgh
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            Integrate large ecological datasets (remote sensing, citizen science, sensors) with
+                            AI/Bayesian modeling to study phenology &amp; biodiversity change.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-slate-600"></i> Prospective students contact by
+                                Fall 2025 for Fall 2026 start</li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-slate-600"></i> Pittsburgh, PA</li>
+                            <li><i class="fas fa-user w-4 text-slate-600"></i> Contact: Dr. Yiluan Song
+                                (YIS218@pitt.edu)</li>
+                        </ul>
+                        <a href="https://yiluansong.github.io/" target="_blank"
+                            class="mt-5 inline-block rounded-lg bg-slate-700 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-slate-800 hover:shadow-hover ring-focus">Song
+                            Lab</a>
+                    </div>
+                </article>
+
+                <!-- Regina/Brasil Freshwater -->
+                <article data-degree="ms,phd" data-country="Canada,Brazil" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">M.Sc.
+                                / Ph.D.</span>
+                            <span class="text-xs text-slate-500">Posted 8/7/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            Graduate Opportunities – Freshwater Ecology &amp; Biodiversity @ University of Regina /
+                            Federal University of Rio de Janeiro
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            NSERC-funded projects: AI for biodiversity monitoring, predicting food-web structure,
+                            large-scale aquatic patterns. Exchange to Brazil included.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-emerald-600"></i> Start: Winter-26 or shortly
+                                after</li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-emerald-600"></i> Regina, SK or Rio de Janeiro,
+                                Brazil</li>
+                            <li><i class="fas fa-dollar-sign w-4 text-emerald-600"></i> Minimum yearly funding + travel
+                                support</li>
+                            <li><i class="fas fa-user w-4 text-emerald-600"></i> Contact: Dr. Bruno Soares
+                                (bruno.soares@uregina.ca)</li>
+                        </ul>
+                        <a href="https://sites.google.com/view/soares-quantitative-ecology" target="_blank"
+                            class="mt-5 inline-block rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-brand-700 hover:shadow-hover ring-focus">Soares
+                            Lab</a>
+                    </div>
+                </article>
+
+                <!-- Algoma Mycorrhizae -->
+                <article data-degree="ms" data-country="Canada" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">M.Sc.</span>
+                            <span class="text-xs text-slate-500">Posted 8/1/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            M.Sc. – Disturbance &amp; Community Ecology of Mycorrhizal Symbioses @ Algoma University
+                            (Ontario)
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            Examine boreal forest plant, songbird &amp; soil microbial responses to wildfire, climate
+                            change &amp; invasive species. Field &amp; molecular work.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-amber-600"></i> Start: Winter/Spring 2026</li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-amber-600"></i> Sault Ste. Marie, ON</li>
+                            <li><i class="fas fa-dollar-sign w-4 text-amber-600"></i> Min $22k/yr; US citizens pay
+                                domestic tuition</li>
+                            <li><i class="fas fa-user w-4 text-amber-600"></i> Contact: Dr. Pedro Antunes
+                                (pedro.antunes@algomau.ca)</li>
+                        </ul>
+                        <a href="https://algomau.ca/academics/graduate-programs/master-of-science-in-biology/"
+                            target="_blank"
+                            class="mt-5 inline-block rounded-lg bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-amber-700 hover:shadow-hover ring-focus">Program
+                            Page</a>
+                    </div>
+                </article>
+
+                <!-- FIU Everglades -->
+                <article data-degree="phd" data-country="United States" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">Ph.D.</span>
+                            <span class="text-xs text-slate-500">Posted 7/31/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            PhD – Forest Successional Dynamics &amp; Everglades Restoration @ Florida International
+                            University
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            Develop successional models for tree-island restoration using 18 yrs of data from the
+                            experimental LILA wetland landscape.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-blue-600"></i> Start: Spring 2026</li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-blue-600"></i> Miami, FL</li>
+                            <li><i class="fas fa-dollar-sign w-4 text-blue-600"></i> $29,630/yr stipend + tuition +
+                                healthcare</li>
+                            <li><i class="fas fa-user w-4 text-blue-600"></i> Contact: Dr. Michael Ross (rossm@fiu.edu)
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+
+                <!-- UGA Coastal -->
+                <article data-degree="ms,phd" data-country="United States" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">M.S.
+                                / Ph.D.</span>
+                            <span class="text-xs text-slate-500">Posted 7/26/25</span>
+                        </div>
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            MS/PhD – Eco-evolutionary Dynamics &amp; Coastal Ecology @ UGA Odum School
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">
+                            Investigate rapid evolution in coastal marsh sedges and its role in mediating ecosystem
+                            processes, using field experiments &amp; forecasting models.
+                        </p>
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li><i class="fas fa-calendar-alt w-4 text-green-600"></i> Priority review before Sept 1,
+                                2025 (Fall 2026 start)</li>
+                            <li><i class="fas fa-map-marker-alt w-4 text-green-600"></i> Athens, GA</li>
+                            <li><i class="fas fa-dollar-sign w-4 text-green-600"></i> ~ $35k/yr (stipend, tuition,
+                                benefits)</li>
+                            <li><i class="fas fa-user w-4 text-green-600"></i> Contact: Dr. Megan Vahsen
+                                (megan.vahsen@uga.edu)</li>
+                        </ul>
+                        <a href="https://mvahsen.weebly.com/" target="_blank"
+                            class="mt-5 inline-block rounded-lg bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-green-700 hover:shadow-hover ring-focus">Vahsen
+                            Lab</a>
+                    </div>
+                </article>
+
+                <!-- Cox Lab – University of Guelph (Canada) -->
+                <article data-degree="ms,phd" data-country="Canada" x-show="matches($el)"
+                    x-transition.opacity.scale.origin.top
+                    class="lift rounded-2xl bg-white border border-slate-200 shadow-card hover:shadow-hover">
+                    <div class="p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-800">
+                                M.Sc. / Ph.D.
+                            </span>
+                            <span class="text-xs text-slate-500">Posted 8/18/25</span>
+                        </div>
+
+                        <h3 class="mt-3 text-lg font-bold text-slate-900">
+                            MSc/PhD – Antimicrobial Resistance (AMR) @ Cox Lab, University of Guelph
+                        </h3>
+
+                        <p class="mt-2 text-sm text-slate-600">
+                            Two fully funded positions to investigate antimicrobial resistance, focusing on novel drug
+                            targets and bacterial
+                            efflux systems. Join a supportive, collaborative group making impactful discoveries in
+                            molecular biology and
+                            genetics.
+                        </p>
+
+                        <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                            <li>
+                                <i class="fas fa-dollar-sign w-4 text-teal-600"></i>
+                                Funding: <span class="font-medium">$25,000/yr (MSc)</span> • <span
+                                    class="font-medium">$30,000/yr (PhD)</span> +
+                                GTA appointment; additional scholarships possible
+                            </li>
+                            <li>
+                                <i class="fas fa-map-marker-alt w-4 text-teal-600"></i>
+                                Guelph, Ontario, Canada 🇨🇦
+                            </li>
+                            <li>
+                                <i class="fas fa-user-graduate w-4 text-teal-600"></i>
+                                Ideal backgrounds: Microbiology, Biochemistry, Molecular Biology, Genetics (BSc). Strong
+                                problem-solving and communication.
+                            </li>
+                            <li>
+                                <i class="fas fa-book-open w-4 text-teal-600"></i>
+                                Suggested reading: Zhu (2024); Teelucksingh (2022, 2020); Goetz (2022)
+                            </li>
+                            <li>
+                                <i class="fas fa-calendar-alt w-4 text-teal-600"></i>
+                                Applications reviewed on a rolling basis
+                            </li>
+                        </ul>
+
+                        <div class="mt-5 flex flex-wrap gap-2">
+                            <a href="mailto:gcox@uoguelph.ca?subject=Application:%20MSc/PhD%20AMR%20%E2%80%93%20Cox%20Lab&body=Hi%20Dr.%20Cox,%0D%0A%0D%0APlease%20find%20attached%20my%20cover%20letter,%20CV,%20two%20referees%20(contact%20information),%20and%20transcripts.%0D%0A%0D%0ARegards,%0D%0A"
+                                class="rounded-lg bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-card hover:bg-teal-700 hover:shadow-hover ring-focus">
+                                Email Application
+                            </a>
+                            <span
+                                class="inline-flex items-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-teal-700 ring-1 ring-inset ring-teal-600">
+                                Checklist: cover letter • CV • 2 refs • transcripts
+                            </span>
+                        </div>
+                    </div>
+                </article>
+
             </div>
 
-            <!-- optional helper text -->
-            <p class="text-xs text-slate-500 mt-2 px-1">Results update as you type.</p>
+            <!-- No results -->
+            <div x-show="!anyVisible()" x-transition.opacity class="mt-10 text-center">
+                <div
+                    class="inline-flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-5 py-4 shadow-card">
+                    <i class="fa-solid fa-circle-info text-brand-600"></i>
+                    <p class="text-sm text-slate-600">
+                        No results match your filters. Try different keywords, degree, or country.
+                    </p>
+                </div>
+            </div>
         </section>
 
-        <div class="space-y-8" x-ref="list" @keyup.window.debounce.200ms="apply()">
-
-            <!-- UW-Madison EC -->
-            <article data-degree="ms" data-country="United States" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">M.S.</span>
-                        <span class="text-xs text-slate-500">Posted 8/14/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        Environmental Conservation Professional MS @ UW-Madison
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        15-month, 32-credit professional program focused on conservation
-                        leadership, culminating in a real-world applied project.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-emerald-600"></i>
-                            Priority deadline: Dec 1, 2025
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-emerald-600"></i>
-                            Madison, WI
-                        </li>
-                        <li>
-                            <i class="fas fa-dollar-sign w-4 text-emerald-600"></i> $32 k
-                            tuition; need-based tuition assistance available
-                        </li>
-                    </ul>
-                    <div class="mt-4 flex flex-wrap gap-2">
-                        <a href="https://nelson.wisc.edu/graduate/professional-programs/environmental-conservation/"
-                            target="_blank"
-                            class="rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">Program
-                            Page</a>
-                        <a href="https://nelson.wisc.edu/graduate/professional-programs/costs-and-funding/"
-                            target="_blank"
-                            class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-emerald-700 ring-1 ring-inset ring-emerald-600 hover:bg-emerald-50">Funding</a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- UW-Madison EOI -->
-            <article data-degree="ms" data-country="United States" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">M.S.</span>
-                        <span class="text-xs text-slate-500">Posted 8/14/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        Environmental Observation & Informatics MS @ UW-Madison
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        15-month, 32-credit program at the intersection of geospatial
-                        technology and environmental conservation.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-emerald-600"></i>
-                            Priority deadline: Dec 1, 2025
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-emerald-600"></i>
-                            Madison, WI
-                        </li>
-                        <li>
-                            <i class="fas fa-dollar-sign w-4 text-emerald-600"></i> $32 k
-                            tuition; need-based tuition assistance available
-                        </li>
-                    </ul>
-                    <div class="mt-4 flex flex-wrap gap-2">
-                        <a href="https://nelson.wisc.edu/graduate/professional-programs/environmental-observation-and-informatics/"
-                            target="_blank"
-                            class="rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">Program
-                            Page</a>
-                        <a href="https://nelson.wisc.edu/graduate/professional-programs/costs-and-funding/"
-                            target="_blank"
-                            class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-emerald-700 ring-1 ring-inset ring-emerald-600 hover:bg-emerald-50">Funding</a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- WSU Grassland -->
-            <article data-degree="ms" data-country="United States" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-800">M.S.</span>
-                        <span class="text-xs text-slate-500">Posted 8/14/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        Graduate Assistantship (M.S.), Grassland Plant Ecology @ Wichita
-                        State
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        Study cattle-grazing effects on Conservation Reserve Program
-                        grasslands in KS & CO. Extensive summer fieldwork.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-sky-600"></i> Start: Jan
-                            2026 | Review starts Sept 15
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-sky-600"></i> Wichita,
-                            KS (urban campus near Flint Hills)
-                        </li>
-                        <li>
-                            <i class="fas fa-dollar-sign w-4 text-sky-600"></i> $25 k/yr
-                            stipend + tuition waiver + health benefits
-                        </li>
-                        <li>
-                            <i class="fas fa-user w-4 text-sky-600"></i> Contact: Dr. Greg
-                            Houseman (greg.houseman@wichita.edu)
-                        </li>
-                    </ul>
-                    <a href="http://www.wichita.edu/biology/" target="_blank"
-                        class="mt-4 inline-block rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-700">Dept.
-                        Website</a>
-                </div>
-            </article>
-
-            <!-- UBC PhD Landscape -->
-            <article data-degree="phd" data-country="Canada" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-800">Ph.D.</span>
-                        <span class="text-xs text-slate-500">Posted 8/13/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        PhD – Landscape Connectivity for Ecosystem Services @ UBC Forestry
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        Collaborative project with Nature Conservancy of Canada & Metro
-                        Vancouver on social-ecological landscape connectivity under future
-                        land-use & climate change.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-indigo-600"></i> Start:
-                            Jan or May 2026
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-indigo-600"></i>
-                            Vancouver, BC
-                        </li>
-                        <li>
-                            <i class="fas fa-user w-4 text-indigo-600"></i> Contact: Dr.
-                            Matthew Mitchell (matthew.mitchell@ubc.ca)
-                        </li>
-                    </ul>
-                    <a href="https://mgemitchell.weebly.com/opportunities.html" target="_blank"
-                        class="mt-4 inline-block rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700">Full
-                        Details</a>
-                </div>
-            </article>
-
-            <!-- UBC MSc Urban -->
-            <article data-degree="ms" data-country="Canada" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-800">M.Sc.</span>
-                        <span class="text-xs text-slate-500">Posted 8/13/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        MSc – Urban Forest Ecology @ UBC Forestry
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        Investigate how urban forests on public & private land contribute
-                        to connectivity, biodiversity & climate-related ecosystem services
-                        across Canadian cities.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-indigo-600"></i> Start:
-                            Jan or May 2026
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-indigo-600"></i>
-                            Vancouver, BC
-                        </li>
-                        <li>
-                            <i class="fas fa-user w-4 text-indigo-600"></i> Co-supervised by
-                            Dr. Matthew Mitchell & Dr. Tahia Devisscher
-                        </li>
-                    </ul>
-                    <a href="https://mgemitchell.weebly.com/opportunities.html" target="_blank"
-                        class="mt-4 inline-block rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700">Full
-                        Details</a>
-                </div>
-            </article>
-
-            <!-- UNH Quantitative -->
-            <article data-degree="ms,phd" data-country="United States" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-800">M.S.
-                            / Ph.D.</span>
-                        <span class="text-xs text-slate-500">Posted 8/11/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        Graduate Student – Quantitative Ecology @ University of New
-                        Hampshire
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        Use large secondary datasets (eBird, BioTime) to optimize
-                        long-term monitoring program design. Strong data-science/modelling
-                        background desired.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-teal-600"></i> Start:
-                            2026
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-teal-600"></i> Durham,
-                            NH
-                        </li>
-                        <li>
-                            <i class="fas fa-user w-4 text-teal-600"></i> Contact via lab
-                            manual link
-                        </li>
-                    </ul>
-                    <a href="https://quantmarineecolab.github.io/lab-manual/04-recruitment.html" target="_blank"
-                        class="mt-4 inline-block rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-700">Lab
-                        Manual & Apply</a>
-                </div>
-            </article>
-
-            <!-- Boise State PhD Fire -->
-            <article data-degree="phd" data-country="United States" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">Ph.D.</span>
-                        <span class="text-xs text-slate-500">Posted 8/11/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        PhD – Social-Ecological Dynamics of Wildland Fire @ Boise State
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        NSF-funded project examining wildfire impacts & management
-                        decisions across scales. Focus on integrating social vulnerability
-                        into resource allocation.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-amber-600"></i> Apply by:
-                            Sept 1, 2025 for Spring/Fall 2026
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-amber-600"></i> Boise,
-                            ID
-                        </li>
-                        <li>
-                            <i class="fas fa-user w-4 text-amber-600"></i> PI: Dr. Megan
-                            Cattau (megan.cattau@boisestate.edu)
-                        </li>
-                    </ul>
-                    <a href="https://www.boisestate.edu/hes/" target="_blank"
-                        class="mt-4 inline-block rounded-md bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-700">Program
-                        Info</a>
-                </div>
-            </article>
-
-            <!-- Purdue MS Forest -->
-            <article data-degree="ms" data-country="United States" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold text-rose-800">M.S.</span>
-                        <span class="text-xs text-slate-500">Posted 8/11/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        M.S. – Spatial Forest Ecology @ Purdue University
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        Model how spatial relationships among trees influence forest
-                        growth, regeneration & understory communities in Indiana mixed
-                        hardwood forests.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-rose-600"></i> Start:
-                            Spring 2026
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-rose-600"></i> West
-                            Lafayette, IN
-                        </li>
-                        <li>
-                            <i class="fas fa-dollar-sign w-4 text-rose-600"></i> Competitive
-                            stipend, tuition waiver, health insurance
-                        </li>
-                        <li>
-                            <i class="fas fa-user w-4 text-rose-600"></i> Contact: Dr. Insu
-                            Jo (insujo@purdue.edu)
-                        </li>
-                    </ul>
-                    <a href="https://ag.purdue.edu/directory/insujo" target="_blank"
-                        class="mt-4 inline-block rounded-md bg-rose-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-700">Lab
-                        Page</a>
-                </div>
-            </article>
-
-            <!-- UCSB PhD Forest -->
-            <article data-degree="phd" data-country="United States" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-800">Ph.D.</span>
-                        <span class="text-xs text-slate-500">Posted 8/11/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        PhD – Forest Ecology @ UCSB Landscapes of Change Lab
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        Study how climate change & disturbances reshape forests; combine
-                        field ecology with data science & quantitative analysis.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-purple-600"></i> Apply
-                            by: Dec 15 (start Summer/Fall 2026)
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-purple-600"></i> Santa
-                            Barbara, CA
-                        </li>
-                        <li>
-                            <i class="fas fa-user w-4 text-purple-600"></i> Contact: Dr.
-                            Joan Dudney (dudney@ucsb.edu)
-                        </li>
-                    </ul>
-                    <a href="https://www.landscapesofchangelab.com/join-us" target="_blank"
-                        class="mt-4 inline-block rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-700">Join
-                        Us Page</a>
-                </div>
-            </article>
-
-            <!-- UL Lafayette Coastal -->
-            <article data-degree="phd" data-country="United States" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-cyan-100 px-3 py-1 text-xs font-semibold text-cyan-800">Ph.D.</span>
-                        <span class="text-xs text-slate-500">Posted 8/8/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        PhD – Coastal Plant Ecology @ University of Louisiana Lafayette
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        Research coastal plant eco-evolutionary dynamics in salt marshes
-                        using field, greenhouse & molecular approaches.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-cyan-600"></i> Review
-                            begins Aug 20, 2025 (Spring/Fall 2026)
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-cyan-600"></i>
-                            Lafayette, LA
-                        </li>
-                        <li>
-                            <i class="fas fa-dollar-sign w-4 text-cyan-600"></i> $22 k/yr +
-                            tuition waiver (possible top-up)
-                        </li>
-                        <li>
-                            <i class="fas fa-user w-4 text-cyan-600"></i> Contact: Dr. Robyn
-                            Zerebecki (robyn.zerebecki@louisiana.edu)
-                        </li>
-                    </ul>
-                    <a href="https://zerebeckir.wixsite.com/home" target="_blank"
-                        class="mt-4 inline-block rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-700">Lab
-                        Website</a>
-                </div>
-            </article>
-
-            <!-- UVA Insect -->
-            <article data-degree="phd" data-country="United States" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-lime-100 px-3 py-1 text-xs font-semibold text-lime-800">Ph.D.</span>
-                        <span class="text-xs text-slate-500">Posted 8/8/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        PhD – Insect Population / Global Change Ecology @ University of
-                        Virginia
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        Research population cycles, spatial synchrony, invasive spread &
-                        effects of light pollution on insects using long-term data & field
-                        experiments.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-lime-600"></i> Start:
-                            Fall 2026
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-lime-600"></i>
-                            Charlottesville, VA (Blandy Experimental Farm)
-                        </li>
-                        <li>
-                            <i class="fas fa-dollar-sign w-4 text-lime-600"></i> 5-yr
-                            support: stipend, tuition, health insurance, summer housing
-                        </li>
-                        <li>
-                            <i class="fas fa-user w-4 text-lime-600"></i> Contact: Dr. Kyle
-                            Haynes (haynes@virginia.edu)
-                        </li>
-                    </ul>
-                    <a href="https://uva.theopenscholar.com/haynes-lab" target="_blank"
-                        class="mt-4 inline-block rounded-md bg-lime-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-lime-700">Haynes
-                        Lab</a>
-                </div>
-            </article>
-
-            <!-- Pitt Data Science -->
-            <article data-degree="phd" data-country="United States" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-800">Ph.D.</span>
-                        <span class="text-xs text-slate-500">Posted 8/7/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        PhD – Environmental Data Science & Global Change Biology @
-                        University of Pittsburgh
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        Integrate large ecological datasets (remote sensing, citizen
-                        science, sensors) with AI/Bayesian modeling to study phenology &
-                        biodiversity change.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-slate-600"></i>
-                            Prospective students contact by Fall 2025 for Fall 2026 start
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-slate-600"></i>
-                            Pittsburgh, PA
-                        </li>
-                        <li>
-                            <i class="fas fa-user w-4 text-slate-600"></i> Contact: Dr.
-                            Yiluan Song (YIS218@pitt.edu)
-                        </li>
-                    </ul>
-                    <a href="https://yiluansong.github.io/" target="_blank"
-                        class="mt-4 inline-block rounded-md bg-slate-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-800">Song
-                        Lab</a>
-                </div>
-            </article>
-
-            <!-- Regina/Brasil Freshwater -->
-            <article data-degree="ms,phd" data-country="Canada,Brazil" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">M.Sc.
-                            / Ph.D.</span>
-                        <span class="text-xs text-slate-500">Posted 8/7/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        Graduate Opportunities – Freshwater Ecology & Biodiversity @
-                        University of Regina / Federal University of Rio de Janeiro
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        NSERC-funded projects: AI for biodiversity monitoring, predicting
-                        food-web structure, large-scale aquatic patterns. Exchange to
-                        Brazil included.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-emerald-600"></i> Start:
-                            Winter-26 or shortly after
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-emerald-600"></i>
-                            Regina, SK or Rio de Janeiro, Brazil
-                        </li>
-                        <li>
-                            <i class="fas fa-dollar-sign w-4 text-emerald-600"></i> Minimum
-                            yearly funding + travel support
-                        </li>
-                        <li>
-                            <i class="fas fa-user w-4 text-emerald-600"></i> Contact: Dr.
-                            Bruno Soares (bruno.soares@uregina.ca)
-                        </li>
-                    </ul>
-                    <a href="https://sites.google.com/view/soares-quantitative-ecology" target="_blank"
-                        class="mt-4 inline-block rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">Soares
-                        Lab</a>
-                </div>
-            </article>
-
-            <!-- Algoma Mycorrhizae -->
-            <article data-degree="ms" data-country="Canada" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">M.Sc.</span>
-                        <span class="text-xs text-slate-500">Posted 8/1/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        M.Sc. – Disturbance & Community Ecology of Mycorrhizal Symbioses @
-                        Algoma University (Ontario)
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        Examine boreal forest plant, songbird & soil microbial responses
-                        to wildfire, climate change & invasive species. Field & molecular
-                        work.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-amber-600"></i> Start:
-                            Winter/Spring 2026
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-amber-600"></i> Sault
-                            Ste. Marie, ON
-                        </li>
-                        <li>
-                            <i class="fas fa-dollar-sign w-4 text-amber-600"></i> Min $22
-                            k/yr; US citizens pay domestic tuition
-                        </li>
-                        <li>
-                            <i class="fas fa-user w-4 text-amber-600"></i> Contact: Dr.
-                            Pedro Antunes (pedro.antunes@algomau.ca)
-                        </li>
-                    </ul>
-                    <a href="https://algomau.ca/academics/graduate-programs/master-of-science-in-biology/"
-                        target="_blank"
-                        class="mt-4 inline-block rounded-md bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-700">Program
-                        Page</a>
-                </div>
-            </article>
-
-            <!-- FIU Everglades -->
-            <article data-degree="phd" data-country="United States" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">Ph.D.</span>
-                        <span class="text-xs text-slate-500">Posted 7/31/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        PhD – Forest Successional Dynamics & Everglades Restoration @
-                        Florida International University
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        Develop successional models for tree-island restoration using 18
-                        yrs of data from the experimental LILA wetland landscape.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-blue-600"></i> Start:
-                            Spring 2026
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-blue-600"></i> Miami,
-                            FL
-                        </li>
-                        <li>
-                            <i class="fas fa-dollar-sign w-4 text-blue-600"></i> $29,630/yr
-                            stipend + tuition + healthcare
-                        </li>
-                        <li>
-                            <i class="fas fa-user w-4 text-blue-600"></i> Contact: Dr.
-                            Michael Ross (rossm@fiu.edu)
-                        </li>
-                    </ul>
-                </div>
-            </article>
-
-            <!-- UGA Coastal -->
-            <article data-degree="ms,phd" data-country="United States" x-show="matches($el)"
-                class="rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-lg transition-shadow duration-200">
-                <div class="p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <span
-                            class="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">M.S.
-                            / Ph.D.</span>
-                        <span class="text-xs text-slate-500">Posted 7/26/25</span>
-                    </div>
-                    <h3 class="mt-3 text-xl font-bold text-slate-900">
-                        MS/PhD – Eco-evolutionary Dynamics & Coastal Ecology @ UGA Odum
-                        School
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-600">
-                        Investigate rapid evolution in coastal marsh sedges and its role
-                        in mediating ecosystem processes, using field experiments &
-                        forecasting models.
-                    </p>
-                    <ul class="mt-4 space-y-1 text-sm text-slate-600">
-                        <li>
-                            <i class="fas fa-calendar-alt w-4 text-green-600"></i> Priority
-                            review before Sept 1, 2025 (Fall 2026 start)
-                        </li>
-                        <li>
-                            <i class="fas fa-map-marker-alt w-4 text-green-600"></i> Athens,
-                            GA
-                        </li>
-                        <li>
-                            <i class="fas fa-dollar-sign w-4 text-green-600"></i> ~$35 k/yr
-                            (stipend, tuition, benefits)
-                        </li>
-                        <li>
-                            <i class="fas fa-user w-4 text-green-600"></i> Contact: Dr.
-                            Megan Vahsen (megan.vahsen@uga.edu)
-                        </li>
-                    </ul>
-                    <a href="https://mvahsen.weebly.com/" target="_blank"
-                        class="mt-4 inline-block rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700">Vahsen
-                        Lab</a>
-                </div>
-            </article>
-        </div>
-
-        <!-- No-results note -->
-        <div x-show="!anyVisible()" class="mt-8 text-center text-slate-500 text-sm">
-            No results match your filters. Try different keywords, degree, or country.
-        </div>
-
+        <!-- Footer -->
         <footer class="mt-16 border-t border-slate-200 pt-8 text-center text-sm text-slate-500">
             <p>
-                Listings are maintained for 30 days or until the posted deadline. All
-                openings are open to Bachelor-level candidates.
-                <br />
-                <a href="mailto:boycer@nku.edu" class="text-emerald-600 hover:underline">Email new opportunities</a>
+                Listings are maintained for 30 days or until the posted deadline. All openings are open to
+                Bachelor-level candidates.
+                <br class="hidden sm:block" />
+                <a href="mailto:boycer@nku.edu" class="text-brand-700 hover:underline font-medium">Email new
+                    opportunities</a>
             </p>
+            <div class="mt-6">
+                <a href="#top"
+                    class="inline-flex items-center gap-2 text-slate-500 hover:text-slate-700 ring-focus rounded-md px-3 py-2">
+                    <i class="fa-solid fa-arrow-up"></i> Back to top
+                </a>
+            </div>
         </footer>
     </main>
 
+    <!-- Alpine logic (preserved & slightly enhanced) -->
     <script>
         function filters() {
             return {
                 search: '',
                 degree: 'all',
                 country: 'all',
-                apply() { /* no-op: reactive via matches() */ },
+
+                apply() { /* reactive via matches() */ },
+
                 matches(el) {
                     // Text search: match all tokens
                     const q = this.search.trim().toLowerCase();
@@ -754,19 +795,36 @@
                             if (!hay.includes(t)) return false;
                         }
                     }
-                    // Degree filter
-                    const deg = (el.dataset.degree || '').toLowerCase().split(',');
+                    // Degree filter: element can hold csv like "ms,phd"
+                    const deg = (el.dataset.degree || '').toLowerCase().split(',').map(s => s.trim());
                     if (this.degree !== 'all' && !deg.includes(this.degree)) return false;
 
-                    // Country filter
+                    // Country filter: element can hold csv like "Canada,Brazil"
                     const countries = (el.dataset.country || '').split(',').map(s => s.trim());
                     if (this.country !== 'all' && !countries.includes(this.country)) return false;
 
                     return true;
                 },
+
                 anyVisible() {
                     const cards = Array.from(document.querySelectorAll('[data-degree]'));
                     return cards.some(el => this.matches(el));
+                },
+
+                visibleCount() {
+                    const cards = Array.from(document.querySelectorAll('[data-degree]'));
+                    return cards.reduce((acc, el) => acc + (this.matches(el) ? 1 : 0), 0);
+                },
+
+                isPristine() {
+                    return this.search.trim() === '' && this.degree === 'all' && this.country === 'all';
+                },
+
+                clearFilters() {
+                    this.search = '';
+                    this.degree = 'all';
+                    this.country = 'all';
+                    this.apply();
                 }
             }
         }
